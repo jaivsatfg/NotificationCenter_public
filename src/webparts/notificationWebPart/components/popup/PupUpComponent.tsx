@@ -49,7 +49,7 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
     public async componentDidMount() {
 
         if (this.props.notificationData.imageDetails != null) {
-            const notificationsList = this.ctx.spWeb?.web.lists.getByTitle('Notificacions');
+            const notificationsList = this.ctx.spWeb?.web.lists.getByTitle('Notificaciones');
             const currentItem = notificationsList?.items.getById(this.props.notificationData.id);
             const dataAttachment = await currentItem?.attachmentFiles();
             const targetFileName = (this.props.notificationData.imageDetails as any)["fileName"];
@@ -70,11 +70,11 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
     private async addNotificationsReed(element: INotifications): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
             try {
-                await this.ctx.spWeb?.web.lists.getByTitle('NotificacioLlegida').items.add({
+                await this.ctx.spWeb?.web.lists.getByTitle('NotificacionesLeidas').items.add({
                     Title: element.title,
-                    IdNotificacio: element.id,
-                    ServeiText: element.service?.label,
-                    TipusNotificacioText: element.NotificationType?.label
+                    IdNotificacion: element.id,
+                    ServicioNotificacionText: element.service?.label,
+                    TipoNotificacionText: element.NotificationType?.label
                 });
                 resolve(true);
             }
@@ -141,9 +141,9 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
         return new Promise<IDocuments[]>(async (resolve, reject) => {
             let filterDocRelativ: string = "";
             const listDocsId: IList = this.ctx.spWebManagerDoc.lists.getById(idList);
-            const selectFields1: string[] = ['IdNotificacio', 'IdBibliotecaDocuments', 'IdDocumentRelacionat', 'IdDocumentRelacionat', 'IdDocument']
+            const selectFields1: string[] = ['IdNotificacion', 'IdBibliotecaDocumentos', 'IdDocumentoRelacionado', 'IdDocumento']
 
-            const filterToApply: string = `(IdNotificacio eq ${idNotification}) and (IdBibliotecaDocuments eq '${idBiblioteca}')`;
+            const filterToApply: string = `(IdNotificacion eq ${idNotification}) and (IdBibliotecaDocumentos eq '${idBiblioteca}')`;
 
             const items: IItem[] = await listDocsId.items
                 .select(selectFields1.join(','))
@@ -161,12 +161,12 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
 
                 const listTitle: any = await listDocs.select("Title")();
 
-                const selectFields: string[] = ['ID', 'Title', 'Servei', 'Modified', 'File', 'DataPublicacio'];
+                const selectFields: string[] = ['ID', 'Title', 'ServicioNotificacion', 'Modified', 'File', 'FechaPublicacion'];
                 const caml: ICamlQuery = {
                     ViewXml: '<View Scope="RecursiveAll">'.concat(
                         '<ViewFields>', selectFields.map(function (f) { return `<FieldRef Name='${f}'/>` }).join(''), '</ViewFields>',
                         '<Query>',
-                        '<OrderBy><FieldRef Name="DataPublicacio" Ascending="False"/></OrderBy>',
+                        '<OrderBy><FieldRef Name="FechaPublicacion" Ascending="False"/></OrderBy>',
                         '<Where>',
                         `<In><FieldRef Name='ID'/><Values>${filterDocRelativ}</Values></In>`,
                         '</Where></Query><RowLimit>300</RowLimit></View>'),
@@ -308,6 +308,7 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
                                             <div className="col-12">
                                                 <div className={styles.datePanelPopUp}>{dateFormat}</div>
                                                 <div dangerouslySetInnerHTML={{ __html: this.props.notificationData.description }}></div>
+                                                <div dangerouslySetInnerHTML={{ __html: this.props.notificationData.footerDesc }}></div>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -318,7 +319,12 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
                                         </div>
                                         <div className="row">
                                             <div className="col-12">
-                                                <div className={styles.titolDocumentPopUp}>Documentos relacionados</div>
+                                                {
+                                                    this.state.listOfDocRelate.length > 0 &&
+                                                    <>
+                                                        <div className={styles.titolDocumentPopUp}>Documentos relacionados</div>
+                                                    </>
+                                                }
                                                 <Stack className={styles.tablePanelPopUp}>
                                                     <table className={`table ${styles.darreresPublicacions}`}>
                                                         <tbody>

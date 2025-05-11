@@ -48,7 +48,7 @@ export default class RowDocument extends React.Component<IRowDocumentProps, {}> 
             <tr>
                 <th scope="row"><i className={icon} /></th>
                 <td>{this.props.item.name}</td>
-                <td><a className="download" data-interception="off" aria-label="Ver documento" target="_blank" href={this.props.item.url}>Veure</a>
+                <td><a className="download" data-interception="off" aria-label="Ver documento" target="_blank" href={this.props.item.url}>Ver</a>
                 </td>
             </tr>);
     }

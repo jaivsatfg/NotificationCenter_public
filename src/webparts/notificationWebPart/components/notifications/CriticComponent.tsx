@@ -58,7 +58,7 @@ export interface ICriticComponentProps {
                     {
                         this.props.notifications.map((elem: INotifications) => {
 
-                            const changeShortDesc = elem.shortDesc;                          
+                            const changeShortDesc = elem.footerDesc;                          
 
                             return (
                                 

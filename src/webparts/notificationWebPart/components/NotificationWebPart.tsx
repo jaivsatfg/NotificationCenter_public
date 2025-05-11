@@ -149,7 +149,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
           transversalCriticNotifications.map((n: INotifications) => { return n.id; }))
           .then((notReaders: number[]) => {
             transversalCriticNotifications.forEach((t: INotifications) => {
-              if (notReaders.some(e => e === t.id)) {
+              if (notReaders.includes(Number(t.id))) {
                 t.readed = true;
               }
             });
@@ -166,7 +166,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
           transversalOtherNotifications.map((n: INotifications) => { return n.id; }))
           .then((notReaders: number[]) => {
             transversalOtherNotifications.forEach((t: INotifications) => {
-              if (notReaders.some(e => e == t.id)) {
+              if (notReaders.includes(Number(t.id))) {
                 t.readed = true;
               }
             });
@@ -393,7 +393,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
               case 'documentosrelacionadoslistid':
                 cfgApp.documentsRelacionatsId = currentValue;
                 break;
-              case 'publiclibraryname':
+              case 'publiclibraryurl':
                 cfgApp.publicDocumentLibraryUrl = currentValue;
               case 'substringdescription':
                 cfgApp.substringDescription = parseInt(currentValue);
@@ -606,7 +606,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
             values.map((n: INotifications) => { return n.id; }))
             .then((notReaders: number[]) => {
               values.forEach((t: INotifications) => {
-                if (notReaders.some(e => e === t.id)) {
+                if (notReaders.includes(Number(t.id))) {
                   t.readed = true;
                 }
               });
@@ -721,7 +721,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
         transversalCriticNotifications.map((n: INotifications) => { return n.id; }))
         .then((notReaders: number[]) => {
           transversalCriticNotifications.forEach((t: INotifications) => {
-            if (notReaders.some(e => e === t.id)) {
+            if (notReaders.includes(Number(t.id))) {
               t.readed = true;
             }
           });
@@ -736,7 +736,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
         transversalOtherNotifications.map((n: INotifications) => { return n.id; }))
         .then((notReaders: number[]) => {
           transversalOtherNotifications.forEach((t: INotifications) => {
-            if (notReaders.some(e => e === t.id)) {
+            if (notReaders.includes(Number(t.id))) {
               t.readed = true;
             }
           });

@@ -85,7 +85,7 @@ class LastDocuments extends React.Component<ILastDocumentsProps, ILastDocumentsS
           const ctx: IAppContext = this.context;
 
           let values: IDocuments[] = items.map((it: any) => {
-            let currentServei: string = it['Servei'] && it['Servei'].Label;
+            let currentServei: string = it['ServicioNotificacion'] && it['ServicioNotificacion'].Label;
             let fileUrl = it.File.LinkingUri;
             if (!fileUrl && it.File.ServerRelativeUrl) {
               const filePath: string = encodeURIComponent(it.File.ServerRelativeUrl.split('/').splice(0, it.File.ServerRelativeUrl.split('/').length - 1).join('/'));

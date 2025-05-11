@@ -87,7 +87,7 @@ class PopUpCalendarComponent extends React.Component<IPopUpCalendarProps, IPopUp
     }
 
     private async getAttachments(id: number): Promise<IDocuments[]> {
-        const notificationsList = this.ctx.spWeb?.web.lists.getByTitle('Notificacions');
+        const notificationsList = this.ctx.spWeb?.web.lists.getByTitle('Notificaciones');
         const currentItem = notificationsList?.items.getById(id);
         const dataAttachment = await currentItem?.attachmentFiles();
 
