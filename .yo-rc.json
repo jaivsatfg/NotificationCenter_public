@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.15.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "notification-center",
+    "libraryId": "40544a05-4e1d-4c8c-b0b9-d225a38cc94c",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "NotificationCenter",
+    "solutionShortDescription": "NotificationCenter description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

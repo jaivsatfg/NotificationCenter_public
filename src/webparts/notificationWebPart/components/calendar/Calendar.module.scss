@@ -1,0 +1,453 @@
+h2 {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.icon {
+    font-family: 'Material Icons', serif;
+    font-style: normal;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+  }
+  
+  
+  /* VARIABLES */
+  
+  :root {
+    --main-color: #1a8fff;
+    --text-color: #777;
+    --text-color-light: #ccc;
+    --border-color: #eee;
+    --bg-color: #f9f9f9;
+    --neutral-color: #fff;
+  }
+  
+  
+  /* GENERAL */
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size: 1em;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--text-color);
+    background: var(--bg-color);
+    position: relative;
+  }
+  
+  header {
+    display: block;
+    width: 100%;
+    padding: 1.75em 0;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--neutral-color);
+  }
+  
+  header #logo {
+    font-size: 175%;
+    text-align: center;
+    color: var(--main-color);
+    line-height: 1;
+  }
+  
+  header #logo .icon {
+    padding-right: .25em;
+  }
+  
+  main {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5em;
+    max-width: 50em;
+  }
+  
+  
+  
+  /* Calendar */
+  //vars
+  $white: #ffffff;
+  $primary: #007f84;
+  $primary-dark: #005257;
+  $text: #333333;
+  $secondary: #00508f;
+  $alert: #DF5E00;
+  $alert-light: #FFE2CD;
+  $danger: #d14552;
+  $alert2: #cdac45;
+  $success: #3faa79;
+  
+  .calendar {
+    display: block;
+    position: relative;
+    width: 100%;
+    background: var(--neutral-color);
+    border: none;
+  
+    .header {
+      text-transform: lowercase;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5em 0;
+      align-items: center;
+  
+      //MONTH
+      .col-center {
+        text-align: center;
+        font-size: 14px;
+        color: $primary-dark;
+      }
+  
+      //ARROWS
+      .col-start,
+      .col-end {
+        display: inline-block;
+        vertical-align: middle;
+      }
+  
+      .icon {
+        cursor: pointer;
+        padding: 2px;
+        background-color: transparent;
+        color: $primary-dark;
+        vertical-align: middle;
+        display: inline-block;
+  
+        &:hover {
+          background-color: $primary;
+          color: #ffffff;
+          border-radius: 4px;
+  
+        }
+  
+  
+      }
+    }
+  
+    //CALENDAR GRID
+    table {
+      width: 100%;
+      table-layout: fixed;
+  
+      &.body {
+        td {
+          border: 1px solid #ddd;
+          vertical-align: top;
+        }
+      }
+    }
+  
+    //WEEK
+    .days {
+      color: $primary-dark;
+      font-weight: bold;
+      text-align: center;
+  
+      .col {
+        color: $primary-dark;
+        font-weight: bold;
+        border: 1px solid #ddd;
+        border-bottom: none;
+      }
+    }
+  
+    //ALL DAYS
+    .body {
+  
+      //DAY
+      .cell {
+        cursor: pointer;
+  
+        .cell-container {
+          min-height: 63px;
+  
+          //DAY NUMBER
+          .number {
+            font-size: 14px;
+            padding-right: 3px;
+            width: 100%;
+            line-height: 1;
+            display: inline-block;
+            text-align: right;
+            color: $secondary;
+          }
+  
+          //DAY EVENT
+          .cell-body {
+            margin-top: 4px;
+            cursor: pointer;
+  
+            .criticality-high {
+              border: 1px solid $danger;
+              color: $danger;
+              border-radius: 4px;
+              height: 15px;
+              display: flex;
+              margin-top: 2px;
+              cursor: pointer;
+  
+  
+            }
+  
+            .criticality-half {
+              border: 1px solid $alert2;
+              color: $alert2;
+              border-radius: 4px;
+              height: 15px;
+              display: flex;
+              margin-top: 2px;
+              cursor: pointer;
+  
+            }
+  
+            .criticality-low {
+              border: 1px solid $success;
+              color: $success;
+              border-radius: 4px;
+              height: 15px;
+              display: flex;
+              margin-top: 2px;
+              cursor: pointer;
+  
+  
+            }
+  
+            .index-element {
+              font-size: 10px;
+              width: 100%;
+              text-align: right;
+              padding-right: 4px;
+              line-height: 13px;
+            }
+  
+            .disabled-element {
+              display: none;
+            }
+          }
+        }
+  
+  
+      }
+  
+      .selected {
+        background-color: rgba(255, 220, 40, 0.15);
+      }
+  
+      .disabled .cell-container .number {
+        opacity: .3;
+        pointer-events: none;
+      }
+    }
+  }
+  
+  .modalPopUp {
+    border-radius: 10px !important;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+  
+    &>div {
+      max-height: none;
+      height: auto;
+    }
+  
+  
+  }
+  
+  .panelPopUp {
+    color: $text;
+    width: 100%;
+    height: auto;
+    max-width: 700px;
+  
+  
+    .popUpHeader {
+      height: 60.65px;
+      padding: 16px;
+      border-bottom: solid 1.33px #dee2e6;
+    }
+  
+    .popUpTotol {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #005257;
+      display: inline;
+    }
+  
+    .closeIcon {
+      float: right;
+      cursor: pointer;
+    }
+  }
+  
+  .popUpBody {
+    padding: 25px;
+    background-color: #96969614;
+    height: calc(100vh - 214px);
+    overflow: auto;
+  
+    .imageCalContainer {
+      text-align: center;
+      padding: 20px;
+  
+      img {
+        max-height: 320px;
+        max-width: 100%;
+      }
+    }
+  
+  }
+  
+  .popUpBody>div {
+    transition: height 500ms !important;
+  }
+  
+  .footerPopUp {
+    border-top: solid 1.33px #dee2e6;
+    padding: 16px;
+  }
+  
+  .collapseitem {
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+  
+    .collapse-header {
+      display: flex;
+      cursor: pointer;
+      display: flex;
+      width: 100%;
+      background: #fff;
+      border: none;
+      // background-color: #ebf4f5;
+      // color: #007f84;
+      padding: 16px 20px;
+  
+      &:focus {
+        border-color: #4dafb4;
+        position: relative;
+        z-index: 4;
+        overflow: auto;
+        box-shadow: 0 0 0 0.25rem rgba(77, 175, 180, 0.25);
+      }
+  
+      &:focus-visible {
+        outline: none;
+      }
+  
+    }
+  
+    &.show {
+      .collapse-header {
+        color: $primary;
+  
+        background-color: #ebf4f5;
+      }  
+    }
+  }
+  
+  .collapseBody {
+    padding: 16px 20px;
+  }
+  
+  .shorDesc {
+    white-space: nowrap;
+    margin-right: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .criticityIcon {
+    color: #00508f;
+    border-radius: 50%;
+    display: inline-block;
+    background: $white;
+    padding: 1px 0;
+    text-align: center;
+    color: $danger;
+    border: 1px solid $danger;
+    margin-right: 6px;
+    margin-left: auto;
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+  
+    svg {
+      margin-top: -4px;
+    }
+  }
+  
+  .iconTypeNotificationL1 {
+    color: $danger;
+    border: 1px solid $danger;
+  }
+  
+  .iconTypeNotificationL2 {
+    color: $alert2;
+    border: 1px solid $alert2;
+  }
+  
+  .iconTypeNotificationL3 {
+    color: $success;
+    border: 1px solid $success;
+  }
+  
+  .datePanelPopUp {
+    color: $primary-dark;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .titolDocumentPopUp {
+    font-weight: bold;
+    margin-top: 14px;
+  }
+  
+  .tablePanelPopUp {
+    display: table;
+  }
+  
+  table.darreresPublicacions {
+    th {
+      vertical-align: middle;
+    }
+  
+    td {
+      vertical-align: middle;
+    }
+  
+    i {
+      font-size: 18px;
+    }
+  }
+  
+  .iconCancelPopUp {
+    color: $primary;
+    border: 1px solid $primary;
+    background-color: $white;
+    width: 87px;
+    border-radius: 4px;
+  
+    &:hover {
+      color: $white;
+      border: 1px solid $primary;
+      background-color: $primary;
+      width: 87px;
+      transition-delay: 0.15s;
+    }
+  }

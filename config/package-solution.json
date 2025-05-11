@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "notification-center-client-side-solution",
+    "id": "40544a05-4e1d-4c8c-b0b9-d225a38cc94c",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "NotificationCenter description"
+      },
+      "longDescription": {
+        "default": "NotificationCenter description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "notification-center Feature",
+        "description": "The feature that activates elements of the notification-center solution.",
+        "id": "21f271b0-b2a6-4c52-8fc7-a4bdc8e48759",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/notification-center.sppkg"
+  }
+}

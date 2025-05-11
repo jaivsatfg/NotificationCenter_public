@@ -1,0 +1,86 @@
+body {
+  background-color: #ffffff;
+  font-size: 14px;
+  color: #333;
+  font-family: "Barlow", sans-serif;
+}
+
+h2 {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.bg-grey {
+  background-color: rgba(150, 150, 150, 0.08);
+}
+
+.link,
+a,
+a:not([href]):not([class]),
+a:not([href]):not([class]):hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: #00508f;
+}
+
+.link:hover,
+a:hover,
+a:not([href]):not([class]):hover,
+a:not([href]):not([class]):hover:hover {
+  color: #005257;
+}
+
+h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #007f84;
+}
+
+h2 {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #005257;
+}
+
+h3 {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.container-fluid {
+  max-width: 1236px;
+  padding: 0 16px;
+}
+
+.container-fluid .row>.col-8,
+.container-fluid .row>.col-4 {
+  padding: 0 16px;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+table.darreresPublicacions {
+  table-layout: fixed;
+
+  th {
+    vertical-align: middle;
+    width: 36px;
+  }
+
+  td {
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:last-child {
+      text-align: right;
+      width: 55px;
+    }
+  }
+
+  i {
+    font-size: 18px;
+  }
+}
