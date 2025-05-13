@@ -117,7 +117,7 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
             this.setState({ listOfDocRelate: this.listOfDocRelate });
         }
 
-        this.getRelatedDocuments(this.props.notificationData.id, this.ctx.appCfg?.publicDocumentLibraryId, this.ctx.appCfg?.documentsRelacionatsId).then((element) => {
+        this.ctx.appCfg && this.getRelatedDocuments(this.props.notificationData.id, this.ctx.appCfg.publicDocumentLibraryId, this.ctx.appCfg.relatedDocumentListId).then((element) => {
             element.forEach((doc: IDocuments) => {
                 this.listOfDocRelate.push(doc);
             })
@@ -137,29 +137,34 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
 
     }
 
-    private getRelatedDocuments(idNotification: number, idBiblioteca?: string, idList?: string): Promise<IDocuments[]> {
-        return new Promise<IDocuments[]>(async (resolve, reject) => {
+    private getRelatedDocuments(idNotification: number, idBiblioteca: string, idList: string): Promise<IDocuments[]> {
+        return new Promise<IDocuments[]>(async (resolve, reject) => {           
+            if (!idBiblioteca || !idList) {
+                resolve([]);
+                return;
+            }
+
             let filterDocRelativ: string = "";
-            const listDocsId: IList = this.ctx.spWebManagerDoc.lists.getById(idList);
+            const listDocsId: IList | undefined = this.ctx.spWeb?.web.lists.getById(idList);
             const selectFields1: string[] = ['IdNotificacion', 'IdBibliotecaDocumentos', 'IdDocumentoRelacionado', 'IdDocumento']
 
             const filterToApply: string = `(IdNotificacion eq ${idNotification}) and (IdBibliotecaDocumentos eq '${idBiblioteca}')`;
 
-            const items: IItem[] = await listDocsId.items
+            const items: IItem[] | undefined = await listDocsId?.items
                 .select(selectFields1.join(','))
                 .filter(filterToApply)
                 .top(30)();
 
 
-            items.forEach((element: any) => {
-                filterDocRelativ += `<Value Type="Counter">${element.IdDocumentRelacionat}</Value>`;
+            items?.forEach((element: any) => {
+                filterDocRelativ += `<Value Type="Counter">${element.IdDocumentoRelacionado}</Value>`;
             });
 
             if (filterDocRelativ !== "") {
                 const ctx: IAppContext = this.context;
-                const listDocs = this.ctx.spWebManagerDoc.lists.getById(this.context.appCfg.publicDocumentLibraryId);
+                const listDocs = this.ctx.spWeb?.web.lists.getById(this.context.appCfg.publicDocumentLibraryId);
 
-                const listTitle: any = await listDocs.select("Title")();
+                const listTitle: any = await listDocs?.select("Title")();
 
                 const selectFields: string[] = ['ID', 'Title', 'ServicioNotificacion', 'Modified', 'File', 'FechaPublicacion'];
                 const caml: ICamlQuery = {
@@ -171,16 +176,16 @@ class PopUpComponent extends React.Component<IPopUpProps, IPopUpPropsState> {
                         `<In><FieldRef Name='ID'/><Values>${filterDocRelativ}</Values></In>`,
                         '</Where></Query><RowLimit>300</RowLimit></View>'),
                 };
-                listDocs.getItemsByCAMLQuery(caml, 'File',).then((items: any) => {
+                listDocs?.getItemsByCAMLQuery(caml, 'File',).then((items: any) => {
                     const values: IDocuments[] = items.map((it: any) => {
-                        const currentServei: string = it['Servei'] && it['Servei'].Label;
+                        const currentService: string = it['ServicioNotificacion'] && it['ServicioNotificacion'].Label;
                         let fileUrl = it.File.LinkingUri;
                         if (!fileUrl && it.File.ServerRelativeUrl) {
                             const filePath: string = encodeURIComponent(it.File.ServerRelativeUrl.split('/').splice(0, it.File.ServerRelativeUrl.split('/').length - 1).join('/'));
                             fileUrl = ctx.appCfg?.publicDocumentLibraryUrl.concat('/', listTitle.Title, '/Forms/AllItems.aspx?id=', it.File.ServerRelativeUrl, '&parent=', filePath);
                         }
                         const document: IDocuments = {
-                            service: currentServei,
+                            service: currentService,
                             name: it.File && it.File.Name,
                             url: fileUrl,
                             modifiedDate: dayjs(it["Modified"]).toDate(),

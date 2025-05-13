@@ -11,5 +11,5 @@ export interface ISpecificNotice {
     notificactionType:string;
     title:string;
     visibility:string;
-    servei:string
+    service:string
 }

@@ -15,7 +15,6 @@ import "@pnp/sp/files";
 import { DefaultButton, IIconProps, mergeStyles, Stack, ThemeProvider } from '@fluentui/react';
 import { IOrderedTermInfo } from '@pnp/graph/taxonomy/types';
 import { IItem } from '@pnp/sp/items';
-import { Web } from '@pnp/sp/webs';
 import { ICamlQuery, IRenderListDataAsStreamResult } from '@pnp/sp/lists';
 import * as dayjs from 'dayjs';
 import dayjsext from 'dayjs-ext';
@@ -37,6 +36,7 @@ import { IOtherNotification } from '../common/IOtherNotification';
 import NotificationComponent from './notifications/NotificationComponent';
 import SelectedServiceComponent from './selectedService/SelectedServiceComponent';
 import CalendarComponent from './calendar/Calendar';
+import { VISIBILITY } from '../common/Constants';
 
 
 
@@ -57,8 +57,7 @@ export interface ICentreNotificacioWebPartStates {
 
 export default class NotificationWebPart extends React.Component<INotificationWebPartProps, ICentreNotificacioWebPartStates> {
   private ctx: IAppContext = {
-    spWeb: this.props.spWeb,
-    spWebManagerDoc: null,
+    spWeb: this.props.spWeb
   };
 
   public criticNotifications: INotifications[] = [];
@@ -130,7 +129,6 @@ export default class NotificationWebPart extends React.Component<INotificationWe
       }
 
       this.ctx.appCfg = cfg;
-      this.ctx.spWebManagerDoc = Web(this.props.webUrl);
 
       this.getNotifications(transversalService).then((notifResult: INotificationsServiceResult) => {
 
@@ -214,7 +212,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
           cacheDataDuration: 2,
           substringDescription: 67,
           publicDocumentLibraryId: '',
-          documentsRelacionatsId: '',
+          relatedDocumentListId: '',
           publicDocumentLibraryUrl: '',
           generalOrder: [],
           termStoreId: '',
@@ -391,7 +389,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
                 cfgApp.publicDocumentLibraryId = currentValue;
                 break;
               case 'documentosrelacionadoslistid':
-                cfgApp.documentsRelacionatsId = currentValue;
+                cfgApp.relatedDocumentListId = currentValue;
                 break;
               case 'publiclibraryurl':
                 cfgApp.publicDocumentLibraryUrl = currentValue;
@@ -493,7 +491,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
           '<And>',
           '<Eq><FieldRef Name="NotificacionAprobada"/><Value Type="Boolean">', '1', '</Value></Eq>',
           '<And>',
-          '<Eq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', 'Sí', '</Value></Eq>',
+          '<Eq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', VISIBILITY.SI, '</Value></Eq>',
           service.notificationTypesExcepted.length > 0 ? '<And>' : '',
           '<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">', service.title, '</Value></Eq>',
           service.notificationTypesExcepted.length > 0 ? notificationTypeExceptions : '',
@@ -528,7 +526,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
             '<And>',
             '<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">', service.title, '</Value></Eq>',
             service.notificationTypesExcepted.length > 0 ? '<And>' : '',
-            '<Eq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', 'Automàtic', '</Value></Eq>',
+            '<Eq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', VISIBILITY.AUTOMATICO, '</Value></Eq>',
             service.notificationTypesExcepted.length > 1 ? '<And>' : '',
             service.notificationTypesExcepted.length > 0 ? notificationTypeExceptions : '',
             service.notificationTypesExcepted.length > 1 ? '</And>' : '',

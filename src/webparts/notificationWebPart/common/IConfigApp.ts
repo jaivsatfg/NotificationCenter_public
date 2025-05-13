@@ -11,7 +11,7 @@ export interface IConfigApp {
     cacheDataDuration:number;
     substringDescription:number;
     publicDocumentLibraryId:string;
-    documentsRelacionatsId:string;
+    relatedDocumentListId:string;
     publicDocumentLibraryUrl:string;
     btnUrlSearch:string;    
     btnUrlNotifications:string;    

@@ -98,7 +98,7 @@ class PopUpCalendarComponent extends React.Component<IPopUpCalendarProps, IPopUp
                 url: element.ServerRelativeUrl,
                 name: element.FileName,
                 modifiedDate: null,
-                publicationDate:null,
+                publicationDate: null,
                 service: undefined,
                 isAttachment: true
             }
@@ -111,40 +111,40 @@ class PopUpCalendarComponent extends React.Component<IPopUpCalendarProps, IPopUp
     private getRelatedDocuments(idNotification: number, idBiblioteca: string, idList: string): Promise<IDocuments[]> {
         return new Promise<IDocuments[]>(async (resolve, reject) => {
             let filterDocRelativ: string = "";
-            const listDocsId: IList = this.ctx.spWebManagerDoc.lists.getById(idList);
-            const selectFields1: string[] = ['IdNotificacio', 'IdBibliotecaDocuments', 'IdDocumentRelacionat', 'IdDocumentRelacionat', 'IdDocument']
+            const listDocsId: IList | undefined = this.ctx.spWeb?.web.lists.getById(idList);
+            const selectFields1: string[] = ['IdNotificacion', 'IdBibliotecaDocumentos', 'IdDocumentoRelacionado', 'IdDocumento']
 
-            const filterToApply: string = `(IdNotificacio eq ${idNotification}) and (IdBibliotecaDocuments eq '${idBiblioteca}')`;
+            const filterToApply: string = `(IdNotificacion eq ${idNotification}) and (IdBibliotecaDocumentos eq '${idBiblioteca}')`;
 
-            const items: IItem[] = await listDocsId.items
+            const items: IItem[] | undefined = await listDocsId?.items
                 .select(selectFields1.join(','))
                 .filter(filterToApply)
                 .top(30)();
 
 
-            items.forEach((element: any) => {
-                filterDocRelativ += `<Value Type="Counter">${element.IdDocumentRelacionat}</Value>`;
+            items?.forEach((element: any) => {
+                filterDocRelativ += `<Value Type="Counter">${element.IdDocumentoRelacionado}</Value>`;
             });
 
             if (filterDocRelativ !== "") {
 
-                const listDocs = this.ctx.spWebManagerDoc.lists.getById(this.context.appCfg.publicDocumentLibraryId);
+                const listDocs = this.ctx.spWeb?.web.lists.getById(this.context.appCfg.publicDocumentLibraryId);
 
-                const selectFields: string[] = ['ID', 'Title', 'Servei', 'Modified', 'File'];
+                const selectFields: string[] = ['ID', 'Title', 'ServicioNotificacion', 'Modified', 'File', 'FechaPublicacion'];
                 const caml: ICamlQuery = {
                     ViewXml: '<View Scope="RecursiveAll">'.concat(
                         '<ViewFields>', selectFields.map(function (f) { return `<FieldRef Name='${f}'/>` }).join(''), '</ViewFields>',
                         '<Query>',
-                        '<OrderBy><FieldRef Name="DataPublicacio" Ascending="False"/></OrderBy>',
+                        '<OrderBy><FieldRef Name="FechaPublicacion" Ascending="False"/></OrderBy>',
                         '<Where>',
                         `<In><FieldRef Name='ID'/><Values>${filterDocRelativ}</Values></In>`,
                         '</Where></Query><RowLimit>300</RowLimit></View>'),
                 };
-                listDocs.getItemsByCAMLQuery(caml, 'File',).then((items: any) => {
+                listDocs?.getItemsByCAMLQuery(caml, 'File',).then((items: any) => {
                     const values: IDocuments[] = items.map((it: any) => {
-                        const currentServei: string = it['Servei'] && it['Servei'].Label;
+                        const currentService: string = it['ServicioNotificacion'] && it['ServicioNotificacion'].Label;
                         const document: IDocuments = {
-                            service: currentServei,
+                            service: currentService,
                             name: it.File && it.File.Name,
                             url: it.File && it.File.ServerRelativeUrl,
                             modifiedDate: dayjs(it['Modified']).toDate(),
@@ -173,31 +173,31 @@ class PopUpCalendarComponent extends React.Component<IPopUpCalendarProps, IPopUp
 
     async getDocumentRelate(id: number) {
 
-        this.ctx.appCfg?.publicDocumentLibraryId && this.ctx.appCfg.documentsRelacionatsId
-        && this.getRelatedDocuments(id, this.ctx.appCfg.publicDocumentLibraryId, this.ctx.appCfg.documentsRelacionatsId).then(async (element) => {
-            const result: IDocuments[] = [];
-            const onlyDocRelate: IDocuments[] = [];
-            const attachments = await this.getAttachments(id);
-            element.forEach((doc: IDocuments) => {
-                onlyDocRelate.push(doc);
+        this.ctx.appCfg?.publicDocumentLibraryId && this.ctx.appCfg.relatedDocumentListId
+            && this.getRelatedDocuments(id, this.ctx.appCfg.publicDocumentLibraryId, this.ctx.appCfg.relatedDocumentListId).then(async (element) => {
+                const result: IDocuments[] = [];
+                const onlyDocRelate: IDocuments[] = [];
+                const attachments = await this.getAttachments(id);
+                element.forEach((doc: IDocuments) => {
+                    onlyDocRelate.push(doc);
+                })
+                if (element.length > 0) {
+                    attachments.forEach((element) => {
+                        result.push(element);
+                    })
+                    onlyDocRelate.forEach((element) => {
+                        result.push(element);
+                    })
+                }
+                else {
+                    attachments.forEach((element) => {
+                        result.push(element);
+                    })
+                }
+                this.setState({ listOfDocRelate: result });
+            }).catch((error: Error) => {
+                console.log(error)
             })
-            if (element.length > 0) {
-                attachments.forEach((element) => {
-                    result.push(element);
-                })
-                onlyDocRelate.forEach((element) => {
-                    result.push(element);
-                })
-            }
-            else {
-                attachments.forEach((element) => {
-                    result.push(element);
-                })
-            }
-            this.setState({ listOfDocRelate: result });
-        }).catch((error: Error) => {
-            console.log(error)
-        })
 
     }
 
@@ -262,7 +262,7 @@ class PopUpCalendarComponent extends React.Component<IPopUpCalendarProps, IPopUp
                     isBlocking={false}>
                     <div className={styles.panelPopUp}>
                         <div className={styles.popUpHeader}>
-                            <h2 className={styles.popUpTotol}>Eventos y Calendario del {dayjs(this.props.selectedDate).locale('es').format('L')}</h2>
+                            <h2 className={styles.popUpTotol}>Eventos y Calendario del {dayjs(this.props.selectedDate).locale('es').format('DD/MM/YYYY')}</h2>
                             <span className={styles.closeIcon} onClick={hideModalEvent}><IconComponent title={"close"} isFill={true}></IconComponent></span>
                         </div>
                         <div className={styles.popUpBody}>
@@ -278,15 +278,19 @@ class PopUpCalendarComponent extends React.Component<IPopUpCalendarProps, IPopUp
                                             <Collapse style={{ translate: 'height 500ms' }} theme={{ collapse: 'foo', content: 'bar' }} isOpened={this.state.collapseIndex === index}>
                                                 {/* <div className={styles["collapse-body"]}>Random content</div> */}
                                                 <div className={styles.collapseBody}>
-                                                        <div className={styles.datePanelPopUp}>{this.dateFormatChange(notification.dateInit)}</div>
-                                                        <div dangerouslySetInnerHTML={{ __html: notification.description }}></div>
+                                                    <div className={styles.datePanelPopUp}>{this.dateFormatChange(notification.dateInit)}</div>
+                                                    <div dangerouslySetInnerHTML={{ __html: notification.description }}></div>
 
-                                                    
-                                                        {
-                                                            this.state.urlImage != "" ? <div className={styles.imageCalContainer}><img src={this.state.urlImage} /></div> : <></>
-                                                        }
-                                                    
-                                                    <div className={styles.titolDocumentPopUp}>Documentos</div>
+
+                                                    {
+                                                        this.state.urlImage != "" ? <div className={styles.imageCalContainer}><img src={this.state.urlImage} /></div> : <></>
+                                                    }
+                                                    {
+                                                        this.state.listOfDocRelate.length > 0 &&
+                                                        <>
+                                                            <div className={styles.titolDocumentPopUp}>Documentos</div>
+                                                        </>
+                                                    }
                                                     <Stack className={styles.tablePanelPopUp}>
                                                         <table className={`table ${styles.darreresPublicacions}`}>
                                                             <tbody>

@@ -10,5 +10,5 @@ export interface ISpecificCriticalNotice {
     notificactionType:string;
     title:string;
     visibility:string;
-    servei:string
+    service:string
 }

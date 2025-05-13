@@ -13,6 +13,7 @@ import { es } from 'date-fns/locale';
 import { INotifications } from "../../common/INotifications";
 import { AppContext, IAppContext } from "../../common/IAppContext";
 import { VisibilityValues } from "../../common/VisibilityValues";
+import { NOTIFICATION_TYPES, VISIBILITY } from "../../common/Constants";
 
 
 
@@ -31,7 +32,7 @@ export default class CalendarComponent extends React.Component<ICalendarComponen
 
     public constructor(props: ICalendarComponentProps) {
         super(props);
-        
+
     }
 
     public componentDidMount(): void {
@@ -120,9 +121,9 @@ export default class CalendarComponent extends React.Component<ICalendarComponen
                     '<And>',
                     '<Eq><FieldRef Name="CriticidadNotificacion"/><Value Type="Choice">', priority, '</Value></Eq>',
                     '<And>',
-                    '<Neq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', 'No', '</Value></Neq>',
+                    '<Neq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', VISIBILITY.NO, '</Value></Neq>',
                     '<And>',
-                    '<Contains><FieldRef Name="TipoNotificacion"/><Value Type="Choice">Calendari</Value></Contains>',//Calendari
+                    '<Contains><FieldRef Name="TipoNotificacion"/><Value Type="Choice">', NOTIFICATION_TYPES.CALENDARIO, '</Value></Contains>',//Calendario
                     '<Or>',
                     showBasicNotifications == true ? `<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">${ctx.appCfg?.services[0].title}</Value></Eq>` : '<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">Test</Value></Eq>',
                     showNotifications == true ? `<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">${this.props.title}</Value></Eq>` : '<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">Test</Value></Eq>',
@@ -139,9 +140,9 @@ export default class CalendarComponent extends React.Component<ICalendarComponen
                     '<And>',
                     '<Eq><FieldRef Name="CriticidadNotificacion"/><Value Type="Choice">', priority, '</Value></Eq>',
                     '<And>',
-                    '<Neq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', 'No', '</Value></Neq>',
+                    '<Neq><FieldRef Name="VisibleNotificacion"/><Value Type="Choice">', VISIBILITY.NO, '</Value></Neq>',
                     '<And>',
-                    '<Contains><FieldRef Name="TipoNotificacion"/><Value Type="Choice">Esdeveniment</Value></Contains>',//Esdeveniment
+                    '<Contains><FieldRef Name="TipoNotificacion"/><Value Type="Choice">', NOTIFICATION_TYPES.EVENTO, '</Value></Contains>',//Evento
                     '<Or>',
                     showBasicNotifications == true ? `<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">${ctx.appCfg?.services[0].title}</Value></Eq>` : '<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">Test</Value></Eq>',
                     showNotifications == true ? `<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">${this.props.title}</Value></Eq>` : '<Eq><FieldRef Name="ServicioNotificacion"/><Value Type="TaxonomyFieldType">Test</Value></Eq>',
@@ -302,7 +303,7 @@ export default class CalendarComponent extends React.Component<ICalendarComponen
         const days = [];
         const hoy = dayjs(this.state.currentMonthDate);
         const startDate = hoy.startOf('week').toDate(); // lunes de esa semana     
-        
+
         for (let i = 1; i <= 7; i++) {
             days.push(
                 <td className={`${styles.col} ${styles["col-center"]}`} key={i}>

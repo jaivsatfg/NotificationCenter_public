@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { BsMegaphoneFill } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsFileEarmarkExcel, BsFileEarmarkWord, BsFileImage, BsLightningChargeFill, BsMegaphoneFill } from "react-icons/bs";
 import { BsCalendarEventFill } from "react-icons/bs";
 import { BsCardText } from "react-icons/bs";
 // import { BsMegaphone } from "react-icons/bs";
@@ -39,7 +39,14 @@ class IconComponent extends React.Component<IconComponentProps, {}> {
         const IconChevronDown = BsChevronDown as unknown as React.FC;
         const IconChevronUp = BsChevronUp as unknown as React.FC;
         const IconXLg = BsXLg as unknown as React.FC;
-        
+        const IconBsFileEarmarkExcel = BsFileEarmarkExcel as unknown as React.FC;
+        const IconBsFileEarmarkWord = BsFileEarmarkWord as unknown as React.FC;
+        const IconBsFileImage = BsFileImage as unknown as React.FC;
+        const IconBsCardText = BsCardText as unknown as React.FC;
+        const IconBsLightningChargeFill = BsLightningChargeFill as unknown as React.FC;
+        const IconBsChevronLeft = BsChevronLeft as unknown as React.FC;
+        const IconBsChevronRight = BsChevronRight as unknown as React.FC;
+
         
 
         switch (this.props.title?.toLowerCase()) {
@@ -89,44 +96,42 @@ class IconComponent extends React.Component<IconComponentProps, {}> {
                 return (
                     <IconChevronUp />
                 )
-
-            // case "excel":
-            //     return (
-            //         <BsFileEarmarkExcel />
-            //     )
-            // case "word":
-            //     return (
-            //         <BsFileEarmarkWord />
-            //     )
-            // case "image":
-            //     return (
-            //         <BsFileImage />
-            //     )
-            // case "cardtext":
-            //     return (
-            //         <BsCardText />
-            //     )
-            // case "lightning":
-            //     return (
-            //         <BsLightningChargeFill />
-            //     )
-            // case "close":
-            //     return (
-            //         <BsXLg />
-            //     )
-            // case "left_arrow":
-            //     return (
-            //         <BsChevronLeft />
-            //     )
-            // case "right_arrow":
-            //     return (
-            //         <BsChevronRight />
-            //     )
+            case "excel":
+                return (
+                    <IconBsFileEarmarkExcel />
+                )
+            case "word":
+                return (
+                    <IconBsFileEarmarkWord />
+                )
+            case "image":
+                return (
+                    <IconBsFileImage />
+                )
+            case "cardtext":
+                return (
+                    <IconBsCardText />
+                )
+            case "lightning":
+                return (
+                    <IconBsLightningChargeFill />
+                )
+            case "close":
+                return (
+                    <IconXLg />
+                )
+            case "left_arrow":
+                return (
+                    <IconBsChevronLeft />
+                )
+            case "right_arrow":
+                return (
+                    <IconBsChevronRight />
+                )
             default:
                 return (
                     <IconXLg />
                 )
-
         }
     }
 }
