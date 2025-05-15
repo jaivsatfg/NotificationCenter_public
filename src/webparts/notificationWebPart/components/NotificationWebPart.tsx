@@ -894,15 +894,12 @@ export default class NotificationWebPart extends React.Component<INotificationWe
                   </DefaultButton>
                   {this.props.userProfile === UserProfiles.member ?
                     <>
-                      <DefaultButton className={styles.mainbtn} href={this.ctx.appCfg?.btnUrlNotifications} target="_self" data-interception="off" title="Nova notificació" iconProps={this.iconNewNotice}>
+                      <DefaultButton className={styles.mainbtn} href={this.ctx.appCfg?.btnUrlNotifications} target="_self" data-interception="off" title="Nueva notificación" iconProps={this.iconNewNotice}>
                         Notificaciones
-                      </DefaultButton>
-                      <DefaultButton className={styles.mainbtn} href={this.ctx.appCfg?.btnUrlDocuments} target="_self" data-interception="off" title="Pujar documentació" iconProps={this.iconUpload}>
-                        Documentación
-                      </DefaultButton>
+                      </DefaultButton>                     
                     </> : <></>
                   }
-                  <DefaultButton className={styles.mainbtn} href={docsAreaUrl} width="500px" target="_self" data-interception="off" title="Biblioteca de treball" iconProps={this.iconUpload}>
+                  <DefaultButton className={styles.mainbtn} href={docsAreaUrl} width="500px" target="_self" data-interception="off" title="Biblioteca de trabajo" iconProps={this.iconUpload}>
                     Biblioteca de trabajo
                   </DefaultButton>
                 </div>
