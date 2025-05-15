@@ -868,7 +868,7 @@ export default class NotificationWebPart extends React.Component<INotificationWe
       );
     }
 
-    const docsAreaUrl: string = this.props.webUrl + "/DocsArea/Forms/AllItems.aspx";
+    const docsAreaUrl: string = this.props.webUrl + "/DocumentosTrabajo/Forms/AllItems.aspx";
     return (
       <AppContext.Provider value={this.ctx}>
         <Stack className={`${styles.centreNotificacioWebPart} ${hasTeamsContext ? styles.teams : ''}`}>

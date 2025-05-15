@@ -3,7 +3,7 @@
   "solution": {
     "name": "notification-center-client-side-solution",
     "id": "40544a05-4e1d-4c8c-b0b9-d225a38cc94c",
-    "version": "1.0.0.1",
+    "version": "1.0.0.2",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
